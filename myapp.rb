@@ -1,5 +1,28 @@
 # mon_application.rb
 require 'sinatra'
+require 'mongoid'
+Mongoid.load!('mongoid.yml', :dev)
+#enable: sessions
+
+class User
+  	
+	include Mongoid::Document
+	field :ID,type: Integer 
+	field :pseudo,type: String
+	collection :'messages'
+  
+
+end
+
+class Message
+
+	include Mongoid::Document
+	field :message,   type: String
+	belongs_to :user
+
+end
+
+
 @pseudo
 @messages
 
@@ -9,6 +32,7 @@ end
 
 
 get '/chat' do	
+
 	pseudo = params[:pseudo]
 	@pseudo = pseudo
 	if @pseudo != ""
@@ -22,6 +46,7 @@ end
 
 post '/chat' do
 	#Enregistre message in bdd
+	
 
 	#Mise à jour de la variable @messages
 
