@@ -5,7 +5,7 @@ require 'yaml'
 require 'json'
 
 YAML::ENGINE.yamler = 'syck'
-Mongoid.load!('mongoid.yml')
+Mongoid.load!('mongoid.yml',:dev)
 #enable: sessions
 use Rack::Session::Pool, :expire_after => 2592000
 
@@ -52,11 +52,12 @@ end
 
 post '/chat' do
 	#Recup User in Bdd
-	user = User.where(pseudo: session[:pseudo])
+	user = User.where(pseudo: session[:pseudo]).first
 		if user.nil?
-			user = User.new(pseudo :session[:pseudo])
+			user = User.new(pseudo: session[:pseudo])
 		end
-
+puts params[:message]
+puts user.inspect
 	#Enregistre message in bdd
     mess = Message.new(message: params[:message], user: user)
 
