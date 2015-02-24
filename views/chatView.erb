@@ -1,8 +1,10 @@
-<h1> Chat view </h1>
+<h1> Chat and fun </h1>
 
-<h2> Hello <% @pseudo %></h2>
-<textarea>Foo&#x000A;Bar</textarea>
-<form accept-charset="UTF-8" action="/" method="post">
+<h2> Hello <%= @pseudo %>, you can chat !</h2>
+
+<textarea cols="30" rows="10"> <%= @messages%> </textarea>
+
+<form accept-charset="UTF-8" action="/chat" method="post">
   	<input name="message" value="" />
 	<input name="commit" type="submit" value="Send" />
 </form>
