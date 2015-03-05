@@ -1,8 +1,13 @@
 # mon_application.rb
 require 'sinatra'
 require 'mongoid'
-Mongoid.load!('mongoid.yml', :dev)
+require 'yaml'
+require 'json'
+
+YAML::ENGINE.yamler = 'syck'
+Mongoid.load!('mongoid.yml')
 #enable: sessions
+use Rack::Session::Pool, :expire_after => 2592000
 
 #Connection à la base de donnée 
 #uri = "mongodb://Coralie:ingesup33@ds063869.mongolab.com:63869/chatruby"

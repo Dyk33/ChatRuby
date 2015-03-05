@@ -1,10 +1,9 @@
 dev: 
   sessions:
     default:
-      username:'Coralie'
-      password:'ingesup33'
       database:'chatruby'
-      uri: 'mongodb://Coralie:ingesup33@ds063869.mongolab.com:63869/chatruby'
+      another:
+      	uri: 'mongodb://Coralie:ingesup33@ds063869.mongolab.com:63869/chatruby'
       options: 
         timeout: 15
         safe: true
