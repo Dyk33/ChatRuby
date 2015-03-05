@@ -5,22 +5,21 @@ Mongoid.load!('mongoid.yml', :dev)
 #enable: sessions
 
 #Connection à la base de donnée 
-uri = "mongodb://Coralie:ingesup33@ds063869.mongolab.com:63869/chatruby"
-client = Mongo::MongoClient.from_uri(uri)
+#uri = "mongodb://Coralie:ingesup33@ds063869.mongolab.com:63869/chatruby"
+#client = Mongo::MongoClient.from_uri(uri)
 
 
 #Document USER
 class User	
 	include Mongoid::Document
-	field :ID,type: Integer 
-	field :pseudo,type: String
-	collection :'messages'
+	field :pseudo, type: String
+	collection :messages
 end
 
 #Document Message
 class Message
 	include Mongoid::Document
-	field :message,   type: String
+	field :message, type: String
 	belongs_to :user
 end
 
@@ -34,16 +33,11 @@ end
 
 
 get '/chat' do	
+	if !params[:pseudo].nil?
+		session[:pseudo] = params[:pseudo]
+	    @pseudo = session[:pseudo]
 
-	#pseudo = params[:pseudo]
-	#@pseudo = pseudo
-	#if @pseudo != ""	
-	#@messages = "Thomas : Coucou!"
-
-	if(!session[:id].nil? && !session[:user].nil?)
-	    @userId = session[:id]
-	    @userSession = session[:user]
-	#Affichage des messages dans le textArea
+		#Affichage des messages dans le textArea (AFFICHER LES MESSAGES PAR UTILISATEUR)
 	    @messages = Message.all
 		erb	:chatView
 	else
@@ -52,16 +46,27 @@ get '/chat' do
 end
 
 post '/chat' do
+	#Recup User in Bdd
+	user = User.where(pseudo: session[:pseudo])
+		if user.nil?
+			user = User.new(pseudo :session[:pseudo])
+		end
+
 	#Enregistre message in bdd
-    @mess = Message.create(params[:message])
-    redirect to("/chat")
+    mess = Message.new(message: params[:message], user: user)
 
-	
+    user.messages.push(mess)
+    user.reload.messages
 
-	#Mise à jour de la variable @messages
+    mess.save
+    user.save
+
+	#Mise à jour de la variable @messages (AFFICHER LES MESSAGES PAR UTILISATEUR)
+	@messages = Message.all
 
 	# Reaffiche chat
-	pseudo = params[:pseudo]
-	@pseudo = pseudo
+	@pseudo = session[:pseudo]
+
 	redirect("/chat")
 end
+end	
