@@ -43,7 +43,9 @@ get '/chat' do
 	    @pseudo = session[:pseudo]
 
 		#Affichage des messages dans le textArea (AFFICHER LES MESSAGES PAR UTILISATEUR)
-	    @messages = Message.all
+	    Message.all.each do |m|
+		  @message = @message + m.message
+		end
 		erb	:chatView
 	else
 		erb :index
@@ -68,7 +70,9 @@ puts user.inspect
     user.save
 
 	#Mise à jour de la variable @messages (AFFICHER LES MESSAGES PAR UTILISATEUR)
-	@messages = Message.all
+	Message.all.each do |m|
+		@message = @message + m.message
+	end
 
 	# Reaffiche chat
 	@pseudo = session[:pseudo]
