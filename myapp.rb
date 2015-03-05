@@ -18,7 +18,7 @@ use Rack::Session::Pool, :expire_after => 2592000
 class User	
 	include Mongoid::Document
 	field :pseudo, type: String
-	collection :messages
+	has_many :messages
 end
 
 #Document Message
