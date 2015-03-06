@@ -1,8 +1,4 @@
 dev: 
   sessions:
     default:
-      another:
       	uri: 'mongodb://Coralie:ingesup33@ds063869.mongolab.com:63869/chatruby'
-      options: 
-        timeout: 15
-        refresh_interval: 10
