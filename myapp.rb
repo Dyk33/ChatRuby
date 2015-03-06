@@ -5,7 +5,7 @@ require 'yaml'
 require 'json'
 
 YAML::ENGINE.yamler = 'syck'
-Mongoid.load!('mongoid.yml',:dev)
+Mongoid.load!('mongoid.yml', :production)
 #enable: sessions
 use Rack::Session::Pool, :expire_after => 2592000
 
