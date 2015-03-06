@@ -58,8 +58,7 @@ post '/chat' do
 		if user.nil?
 			user = User.new(pseudo: session[:pseudo])
 		end
-puts params[:message]
-puts user.inspect
+
 	#Enregistre message in bdd
     mess = Message.new(message: params[:message], user: user)
 
