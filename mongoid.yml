@@ -1,4 +1,4 @@
 dev: 
   sessions:
     default:
-      	uri: 'mongodb://Coralie:ingesup33@ds063869.mongolab.com:63869/chatruby'
+      	uri: <%= ENV['MONGOLAB_URL'] %>
