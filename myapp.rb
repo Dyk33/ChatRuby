@@ -44,10 +44,11 @@ get '/chat' do
 
 		#Affichage des messages dans le textArea (AFFICHER LES MESSAGES PAR UTILISATEUR)
 	    Message.each do |m|
-	    	if @message.nil?
-		  		@message = m.message
+	    	user = User.where(_id: m.user_id).first
+	    	if @messages.nil?	    		
+		  		@messages = user.pseudo + " : " + m.message
 		  	else
-		  		@message= @message + "\n"+ m.message
+		  		@messages= @messages + "\n"+ user.pseudo + " : " + m.message
 		  	end
 		end
 
