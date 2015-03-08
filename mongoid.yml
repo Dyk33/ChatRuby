@@ -2,3 +2,5 @@ production:
   sessions:
     default:
       	uri: mongodb://chatruby:ingesup33@ds063869.mongolab.com:63869/chatruby
+  options: 
+    raise_not_found_error: false

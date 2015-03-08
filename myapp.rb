@@ -43,24 +43,36 @@ get '/chat' do
 	    @pseudo = session[:pseudo]
 
 		#Affichage des messages dans le textArea (AFFICHER LES MESSAGES PAR UTILISATEUR)
-	    Message.all.each do |m|
-		  @message = @message + m.message
+	    Message.each do |m|
+	    	if @message.nil?
+		  		@message = m.message
+		  	else
+		  		@message= @message + "\n"+ m.message
+		  	end
 		end
+
+		puts Message.count
+
 		erb	:chatView
 	else
-		erb :index
+		redirect to("/")
   	end  
 end
 
 post '/chat' do
+
+	puts session[:pseudo]
+
 	#Recup User in Bdd
-	user = User.where(pseudo: session[:pseudo]).first
-		if user.nil?
-			user = User.new(pseudo: session[:pseudo])
-		end
+	exist = User.where(pseudo: session[:pseudo]).exists?
+	if exist
+		user = User.where(pseudo: session[:pseudo]).first
+	else
+		user = User.create(pseudo: session[:pseudo])
+	end
 
 	#Enregistre message in bdd
-    mess = Message.new(message: params[:message], user: user)
+    mess = Message.create(message: params[:message], user: session[:pseudo])
 
     user.messages.push(mess)
     user.reload.messages
@@ -69,13 +81,9 @@ post '/chat' do
     user.save
 
 	#Mise à jour de la variable @messages (AFFICHER LES MESSAGES PAR UTILISATEUR)
-	Message.all.each do |m|
-		@message = @message + m.message
-	end
-
-	# Reaffiche chat
-	@pseudo = session[:pseudo]
-
-	redirect("/chat")
+	#Message.all.each do |m|
+		#@message = @message + m.message
+	#end
+	redirect to("/chat")
 end
 
