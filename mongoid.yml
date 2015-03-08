@@ -1,4 +1,4 @@
 production: 
   sessions:
     default:
-      	uri: <%= ENV['MONGOLAB_URL'] %>
+      	uri: mongodb://chatruby:ingesup33@ds063869.mongolab.com:63869/chatruby
