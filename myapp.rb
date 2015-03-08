@@ -7,6 +7,7 @@ require 'json'
 YAML::ENGINE.yamler = 'syck'
 Mongoid.load!('mongoid.yml', :production)
 #enable: sessions
+set :protection, except: :session_hijacking
 use Rack::Session::Pool, :expire_after => 2592000
 
 #Connection à la base de donnée 
@@ -38,8 +39,11 @@ end
 
 
 get '/chat' do	
-	if !params[:pseudo].nil?
+	if	session[:pseudo].nil?
 		session[:pseudo] = params[:pseudo]
+	end
+		
+	if !session[:pseudo].nil?
 	    @pseudo = session[:pseudo]
 
 		#Affichage des messages dans le textArea (AFFICHER LES MESSAGES PAR UTILISATEUR)
@@ -50,7 +54,7 @@ get '/chat' do
 		  	else
 		  		@messages= @messages + "\n"+ user.pseudo + " : " + m.message
 		  	end
-		end
+	end
 
 		puts Message.count
 

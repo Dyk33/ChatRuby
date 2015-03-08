@@ -2,9 +2,13 @@
 
 <h2> Hello <%= @pseudo %>, you can chat !</h2>
 
-<textarea cols="30" rows="10"> <%= @messages%> </textarea>
+<textarea cols="30" rows="10" style="width: 645px; height: 342px;"> <%= @messages%> </textarea>
 
 <form accept-charset="UTF-8" action="/chat" method="post">
   	<input name="message" value="" />
 	<input name="commit" type="submit" value="Send" />
+</form>
+
+<form accept-charset="UTF-8" action="/chat" method="get">
+	<input name="commit" type="submit" value="Refresh messages" />
 </form>
