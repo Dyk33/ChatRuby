@@ -1,1 +1,1 @@
-myapp: bundle exec rackup config.ru -p $PORT
+myapp: bundle exec ruby myapp.rb -p $PORT
